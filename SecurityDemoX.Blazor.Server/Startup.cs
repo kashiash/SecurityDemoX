@@ -51,23 +51,37 @@ namespace SecurityDemoX.Blazor.Server {
             services.AddXafReporting();
             services.AddXafDashboards();
             services.AddXafOffice();
+            //services.AddXafSecurity(options => {
+            //    options.RoleType = typeof(PermissionPolicyRole);
+            //    // ApplicationUser descends from PermissionPolicyUser and supports the OAuth authentication. For more information, refer to the following topic: https://docs.devexpress.com/eXpressAppFramework/402197
+            //    // If your application uses PermissionPolicyUser or a custom user type, set the UserType property as follows:
+            //    options.UserType = typeof(SecurityDemoX.Module.BusinessObjects.Employee);
+            //    // ApplicationUserLoginInfo is only necessary for applications that use the ApplicationUser user type.
+            //    // If you use PermissionPolicyUser or a custom user type, comment out the following line:
+            //    options.UserLoginInfoType = typeof(SecurityDemoX.Module.BusinessObjects.ApplicationUserLoginInfo);
+            //    options.Events.OnSecurityStrategyCreated = securityStrategy => ((SecurityStrategy)securityStrategy).RegisterXPOAdapterProviders();
+            //    options.SupportNavigationPermissionsForTypes = false;
+            //})
+            //.AddAuthenticationStandard(options => {
+            //    options.IsSupportChangePassword = true;
+            //})
+
+
             services.AddXafSecurity(options => {
-                options.RoleType = typeof(PermissionPolicyRole);
-                // ApplicationUser descends from PermissionPolicyUser and supports the OAuth authentication. For more information, refer to the following topic: https://docs.devexpress.com/eXpressAppFramework/402197
-                // If your application uses PermissionPolicyUser or a custom user type, set the UserType property as follows:
-                options.UserType = typeof(SecurityDemoX.Module.BusinessObjects.Employee);
-                // ApplicationUserLoginInfo is only necessary for applications that use the ApplicationUser user type.
-                // If you use PermissionPolicyUser or a custom user type, comment out the following line:
-                options.UserLoginInfoType = typeof(SecurityDemoX.Module.BusinessObjects.ApplicationUserLoginInfo);
-                options.Events.OnSecurityStrategyCreated = securityStrategy => ((SecurityStrategy)securityStrategy).RegisterXPOAdapterProviders();
-
-
-
+                options.RoleType = typeof(DevExpress.Persistent.BaseImpl.PermissionPolicy.PermissionPolicyRole);
+                options.UserType = typeof(Module.BusinessObjects.Employee);
+                options.UserLoginInfoType = typeof(Module.BusinessObjects.ApplicationUserLoginInfo);
+                options.Events.OnSecurityStrategyCreated = securityStrategy => {
+                    ((SecurityStrategy)securityStrategy).RegisterXPOAdapterProviders();
+                    ((SecurityStrategy)securityStrategy).AssociationPermissionsMode = AssociationPermissionsMode.Manual;
+                };
                 options.SupportNavigationPermissionsForTypes = false;
-            })
+            }).AddExternalAuthentication<HttpContextPrincipalProvider>()
             .AddAuthenticationStandard(options => {
                 options.IsSupportChangePassword = true;
             })
+
+
             .AddExternalAuthentication<HttpContextPrincipalProvider>();
             var authentication = services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme);
             authentication

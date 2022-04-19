@@ -217,12 +217,12 @@ namespace SecurityDemoX.Module.DatabaseUpdate {
 
                 userRole.SetTypePermission<PermissionPolicyRole>(SecurityOperations.Read, SecurityPermissionState.Allow);
 
-                userRole.AddObjectPermission<EmployeeTask>(SecurityOperations.ReadOnlyAccess, "AssignedTo.Department.Employees[Oid = CurrentUserId()]", SecurityPermissionState.Allow);
+             //   userRole.AddObjectPermission<EmployeeTask>(SecurityOperations.ReadOnlyAccess, "AssignedTo.Department.Employees[Oid = CurrentUserId()]", SecurityPermissionState.Allow);
 
                 userRole.AddObjectPermission<EmployeeTask>(SecurityOperations.ReadWriteAccess, "AssignedTo.Oid = CurrentUserId()", SecurityPermissionState.Allow);
-                userRole.AddMemberPermission<EmployeeTask>(SecurityOperations.Read, "AssignedTo", "AssignedTo.Oid != CurrentUserId()", SecurityPermissionState.Allow);
+              //  userRole.AddMemberPermission<EmployeeTask>(SecurityOperations.Read, "AssignedTo", "AssignedTo.Oid != CurrentUserId()", SecurityPermissionState.Allow);
 
-              //  userRole.AddMemberPermission<EmployeeTask>(SecurityOperations.Write, "AssignedTo", "AssignedTo.Department.Employees[Oid = CurrentUserId()]", SecurityPermissionState.Allow);
+                userRole.AddMemberPermission<EmployeeTask>(SecurityOperations.Write, "AssignedTo", "AssignedTo.Department.Employees[Oid = CurrentUserId()]", SecurityPermissionState.Allow);
 
 
                 userRole.AddObjectPermission<Department>(SecurityOperations.Read, "Employees[Oid=CurrentUserId()]", SecurityPermissionState.Allow);
