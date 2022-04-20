@@ -1,4 +1,6 @@
-﻿namespace SecurityDemoX.Win {
+﻿using DevExpress.ExpressApp.Security;
+
+namespace SecurityDemoX.Win {
     partial class SecurityDemoXWindowsFormsApplication {
         /// <summary> 
         /// Required designer variable.
@@ -55,6 +57,7 @@
             // 
             this.securityStrategyComplex1.Authentication = this.authenticationStandard1;
             this.securityStrategyComplex1.RoleType = typeof(DevExpress.Persistent.BaseImpl.PermissionPolicy.PermissionPolicyRole);
+            this.securityStrategyComplex1.AssociationPermissionsMode = AssociationPermissionsMode.Manual;
             // ApplicationUser descends from PermissionPolicyUser and supports OAuth authentication. For more information, refer to the following help topic: https://docs.devexpress.com/eXpressAppFramework/402197
             // If your application uses PermissionPolicyUser or a custom user type, set the UserType property as follows:
             this.securityStrategyComplex1.UserType = typeof(SecurityDemoX.Module.BusinessObjects.Employee);
