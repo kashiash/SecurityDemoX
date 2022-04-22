@@ -32,4 +32,9 @@
     <PackageReference Include="DevExpress.Persistent.Base" Version="21.2.6" />
     <PackageReference Include="DevExpress.Persistent.BaseImpl.Xpo" Version="21.2.6" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="UnusableNodes.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+    </None>
+  </ItemGroup>
 </Project>

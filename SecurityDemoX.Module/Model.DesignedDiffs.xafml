@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Application Title="SecurityDemoX">
   <BOModel>
     <Class Name="DevExpress.Persistent.BaseImpl.PermissionPolicy.PermissionPolicyUser" Caption="Base User" />
@@ -6,7 +6,22 @@
   <Options>
     <LayoutManagerOptions RequiredFieldMark="*" />
   </Options>
+  <SchemaModules>
+    <SchemaModule Name="CloneObjectModule" Version="21.2.6.0" IsNewNode="True" />
+    <SchemaModule Name="SchedulerModuleBase" Version="21.2.6.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="21.2.6.0" IsNewNode="True" />
+  </SchemaModules>
   <Views>
-    <ListView Id="ApplicationUser_ListView" Caption="Users" />
+    <ListView Id="Customer_ListView">
+      <Columns>
+        <ColumnInfo Id="@eebf18b0-94da-4c54-a82b-73e2f1ffe5fb" PropertyName="Name" IsNewNode="True" />
+        <ColumnInfo Id="Name" Removed="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="Customer_LookupListView">
+      <Columns>
+        <ColumnInfo Id="Name" PropertyName="FullName" />
+      </Columns>
+    </ListView>
   </Views>
 </Application>

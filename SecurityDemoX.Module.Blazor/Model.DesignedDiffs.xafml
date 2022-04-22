@@ -1,3 +1,20 @@
-﻿<?xml version="1.0"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Application>
+  <SchemaModules>
+    <SchemaModule Name="CloneObjectModule" Version="21.2.6.0" IsNewNode="True" />
+    <SchemaModule Name="SchedulerModuleBase" Version="21.2.6.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="21.2.6.0" IsNewNode="True" />
+  </SchemaModules>
+  <Views>
+    <ListView Id="Customer_ListView">
+      <Columns>
+        <ColumnInfo Id="Name" Removed="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="Customer_LookupListView">
+      <Columns>
+        <ColumnInfo Id="Name" Width="338" />
+      </Columns>
+    </ListView>
+  </Views>
 </Application>
