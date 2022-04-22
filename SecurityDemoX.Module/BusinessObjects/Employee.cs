@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.Base.Security;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
@@ -12,7 +15,9 @@ using DevExpress.Xpo;
 namespace SecurityDemoX.Module.BusinessObjects {
     [MapInheritance(MapInheritanceType.ParentTable)]
     [DefaultProperty(nameof(UserName))]
-    public class Employee : PermissionPolicyUser, IObjectSpaceLink, ISecurityUserWithLoginInfo {
+    public class Employee : Person, ISecurityUser, IAuthenticationStandardUser, ISecurityUserWithRoles
+        , IPermissionPolicyUser, ICanInitialize
+        , IObjectSpaceLink, ISecurityUserWithLoginInfo {
         public Employee(Session session) : base(session) { }
 
         [Browsable(false)]
@@ -33,26 +38,108 @@ namespace SecurityDemoX.Module.BusinessObjects {
             return result;
         }
 
-        private string _LastName;
-        private string _FirstName;
+
         private Department department;
 
-        public string FirstName
+
+        #region ISecurityUser Members
+        private bool isActive = true;
+        public bool IsActive
         {
-            get { return _FirstName; }
-            set { SetPropertyValue(nameof(FirstName), ref _FirstName, value); }
+            get { return isActive; }
+            set { SetPropertyValue("IsActive", ref isActive, value); }
+        }
+        private string userName = String.Empty;
+        [RuleRequiredField("EmployeeUserNameRequired", DefaultContexts.Save)]
+        [RuleUniqueValue("EmployeeUserNameIsUnique", DefaultContexts.Save,
+            "Użytkownik o takiej nazwie jest już w systemie.")]
+        public string UserName
+        {
+            get { return userName; }
+            set { SetPropertyValue("UserName", ref userName, value); }
+        }
+        #endregion
+
+        #region IAuthenticationStandardUser Members
+        private bool changePasswordOnFirstLogon;
+        public bool ChangePasswordOnFirstLogon
+        {
+            get { return changePasswordOnFirstLogon; }
+            set
+            {
+                SetPropertyValue("ChangePasswordOnFirstLogon", ref changePasswordOnFirstLogon, value);
+            }
+        }
+        private string storedPassword;
+        [Browsable(false), Size(SizeAttribute.Unlimited), Persistent, SecurityBrowsable]
+        protected string StoredPassword
+        {
+            get { return storedPassword; }
+            set { storedPassword = value; }
+        }
+        public bool ComparePassword(string password)
+        {
+            return PasswordCryptographer.VerifyHashedPasswordDelegate(this.storedPassword, password);
+        }
+        public void SetPassword(string password)
+        {
+            this.storedPassword = PasswordCryptographer.HashPasswordDelegate(password);
+            OnChanged("StoredPassword");
+        }
+        #endregion
+
+        #region ISecurityUserWithRoles Members
+        IList<ISecurityRole> ISecurityUserWithRoles.Roles
+        {
+            get
+            {
+                IList<ISecurityRole> result = new List<ISecurityRole>();
+                foreach (EmployeeRole role in EmployeeRoles)
+                {
+                    result.Add(role);
+                }
+                return result;
+            }
+        }
+        #endregion
+
+        #region IPermissionPolicyUser Members
+        IEnumerable<IPermissionPolicyRole> IPermissionPolicyUser.Roles
+        {
+            get { return EmployeeRoles.OfType<IPermissionPolicyRole>(); }
+        }
+        #endregion
+
+        #region ICanInitialize Members
+        void ICanInitialize.Initialize(IObjectSpace objectSpace, SecurityStrategyComplex security)
+        {
+            EmployeeRole newUserRole = objectSpace.FindObject<EmployeeRole>(
+                new BinaryOperator("Name", security.NewUserRoleName));
+            if (newUserRole == null)
+            {
+                newUserRole = objectSpace.CreateObject<EmployeeRole>();
+                newUserRole.Name = security.NewUserRoleName;
+                newUserRole.IsAdministrative = true;
+                newUserRole.Employees.Add(this);
+            }
+        }
+        #endregion
+
+
+        [Association("Employees-Roles")]
+        [RuleRequiredField("EmployeeRoleIsRequired", DefaultContexts.Save,
+    TargetCriteria = "IsActive",
+    CustomMessageTemplate = "Aktywny użytkownik musi mieć przypisana co najmniej jedną rolę")]
+        public XPCollection<EmployeeRole> EmployeeRoles
+        {
+            get
+            {
+                return GetCollection<EmployeeRole>("EmployeeRoles");
+            }
+
         }
 
-        public string LastName
-        {
-            get { return _LastName; }
-            set { SetPropertyValue(nameof(LastName), ref _LastName, value); }
-        }
-
-        [PersistentAlias("concat(FirstName, ' ', LastName)")]
-        public string FullName { get { return Convert.ToString(EvaluateAlias("FullName")); } }
-
-        [Association]
+            [Association]
         [RuleRequiredField]
         public Department Department
         {

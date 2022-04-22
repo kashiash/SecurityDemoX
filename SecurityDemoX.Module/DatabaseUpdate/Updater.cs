@@ -42,8 +42,8 @@ namespace SecurityDemoX.Module.DatabaseUpdate {
                 ObjectSpace.CommitChanges(); //This line persists created object(s).
                 ((ISecurityUserWithLoginInfo)sampleUser).CreateUserLoginInfo(SecurityDefaults.PasswordAuthentication, ObjectSpace.GetKeyValueAsString(sampleUser));
             }
-            PermissionPolicyRole defaultRole = CreateDefaultRole();
-            sampleUser.Roles.Add(defaultRole);
+            EmployeeRole defaultRole = CreateDefaultRole();
+            sampleUser.EmployeeRoles.Add(defaultRole);
 
             Employee userAdmin = ObjectSpace.FirstOrDefault<Employee>(u => u.UserName == "Admin");
             if (userAdmin == null)
@@ -59,14 +59,14 @@ namespace SecurityDemoX.Module.DatabaseUpdate {
                 ((ISecurityUserWithLoginInfo)userAdmin).CreateUserLoginInfo(SecurityDefaults.PasswordAuthentication, ObjectSpace.GetKeyValueAsString(userAdmin));
             }
             // If a role with the Administrators name doesn't exist in the database, create this role
-            PermissionPolicyRole adminRole = ObjectSpace.FirstOrDefault<PermissionPolicyRole>(r => r.Name == "Administrators");
+            EmployeeRole adminRole = ObjectSpace.FirstOrDefault<EmployeeRole>(r => r.Name == "Administrators");
             if (adminRole == null)
             {
-                adminRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
+                adminRole = ObjectSpace.CreateObject<EmployeeRole>();
                 adminRole.Name = "Administrators";
             }
             adminRole.IsAdministrative = true;
-            userAdmin.Roles.Add(adminRole);
+            userAdmin.EmployeeRoles.Add(adminRole);
 
             var managerRole = GetManagerRole();
             var userRole = GetUserRole();
@@ -98,31 +98,31 @@ namespace SecurityDemoX.Module.DatabaseUpdate {
             }
 
             Employee managerJurek = CreateUser("Jurek","Jurek","Ogórek" ,devDepartment);
-            managerJurek.Roles.Add(defaultRole);
-            managerJurek.Roles.Add(managerRole);
+            managerJurek.EmployeeRoles.Add(defaultRole);
+            managerJurek.EmployeeRoles.Add(managerRole);
 
 
             Employee managerJanusz = CreateUser("Janusz", "Janusz", "Internetów", supDepartment);
-            managerJurek.Roles.Add(defaultRole);
-            managerJurek.Roles.Add(managerRole);
+            managerJurek.EmployeeRoles.Add(defaultRole);
+            managerJurek.EmployeeRoles.Add(managerRole);
 
             Employee managerJakub = CreateUser("Jakub", "Jakub", "Jarząbek", mngDepartment);
-            managerJurek.Roles.Add(defaultRole);
-            managerJurek.Roles.Add(managerRole);
+            managerJurek.EmployeeRoles.Add(defaultRole);
+            managerJurek.EmployeeRoles.Add(managerRole);
 
 
             Employee userJohn = CreateUser("John", "John", "Wysocky", devDepartment);
-            userJohn.Roles.Add(defaultRole);
-            userJohn.Roles.Add(userRole);
+            userJohn.EmployeeRoles.Add(defaultRole);
+            userJohn.EmployeeRoles.Add(userRole);
 
 
             Employee userJesica = CreateUser("Jesica", "Dżesika", "Nowak", supDepartment);
-            userJesica.Roles.Add(defaultRole);
-            userJesica.Roles.Add(userRole);
+            userJesica.EmployeeRoles.Add(defaultRole);
+            userJesica.EmployeeRoles.Add(userRole);
 
             Employee userBrajan = CreateUser("Brajan", "Brajan", "Maximus", mngDepartment);
-            userBrajan.Roles.Add(defaultRole);
-            userBrajan.Roles.Add(userRole);
+            userBrajan.EmployeeRoles.Add(defaultRole);
+            userBrajan.EmployeeRoles.Add(userRole);
 
             AddTask("Read project", managerJakub);
             AddTask("Read emails", managerJanusz);
@@ -179,10 +179,10 @@ namespace SecurityDemoX.Module.DatabaseUpdate {
             //    RenameColumn("DomainObject1Table", "OldColumnName", "NewColumnName");
             //}
         }
-        private PermissionPolicyRole CreateDefaultRole() {
-            PermissionPolicyRole defaultRole = ObjectSpace.FirstOrDefault<PermissionPolicyRole>(role => role.Name == "Default");
+        private EmployeeRole CreateDefaultRole() {
+            EmployeeRole defaultRole = ObjectSpace.FirstOrDefault<EmployeeRole>(role => role.Name == "Default");
             if(defaultRole == null) {
-                defaultRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
+                defaultRole = ObjectSpace.CreateObject<EmployeeRole>();
                 defaultRole.Name = "Default";
 
 				defaultRole.AddObjectPermissionFromLambda<Employee>(SecurityOperations.Read, cm => cm.Oid == (Guid)CurrentUserIdOperator.CurrentUserId(), SecurityPermissionState.Allow);
@@ -199,12 +199,12 @@ namespace SecurityDemoX.Module.DatabaseUpdate {
         }
 
         //Users can access and partially edit data (no create and delete capabilities) from their own department.
-        private PermissionPolicyRole GetUserRole()
+        private EmployeeRole GetUserRole()
         {
-            PermissionPolicyRole userRole = ObjectSpace.FindObject<PermissionPolicyRole>(new BinaryOperator("Name", "Users"));
+            EmployeeRole userRole = ObjectSpace.FindObject<EmployeeRole>(new BinaryOperator("Name", "Users"));
             if (userRole == null)
             {
-                userRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
+                userRole = ObjectSpace.CreateObject<EmployeeRole>();
                 userRole.Name = "Users";
 
                 userRole.AddNavigationPermission("Application/NavigationItems/Items/Default/Items/MyDetails", SecurityPermissionState.Allow);
@@ -231,12 +231,12 @@ namespace SecurityDemoX.Module.DatabaseUpdate {
 
         }
         //Managers can access and fully edit (including create and delete capabilities) data from their own department. However, they cannot access data from other departments.
-        private PermissionPolicyRole GetManagerRole()
+        private EmployeeRole GetManagerRole()
             {
-                PermissionPolicyRole managerRole = ObjectSpace.FindObject<PermissionPolicyRole>(new BinaryOperator("Name", "Managers"));
+            EmployeeRole managerRole = ObjectSpace.FindObject<EmployeeRole>(new BinaryOperator("Name", "Managers"));
                 if (managerRole == null)
                 {
-                    managerRole = ObjectSpace.CreateObject<PermissionPolicyRole>();
+                    managerRole = ObjectSpace.CreateObject<EmployeeRole>();
                     managerRole.Name = "Managers";
 
                     managerRole.AddNavigationPermission("Application/NavigationItems/Items/Default/Items/MyDetails", SecurityPermissionState.Allow);

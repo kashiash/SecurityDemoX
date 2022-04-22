@@ -56,7 +56,7 @@ namespace SecurityDemoX.Win {
             // securityStrategyComplex1
             // 
             this.securityStrategyComplex1.Authentication = this.authenticationStandard1;
-            this.securityStrategyComplex1.RoleType = typeof(DevExpress.Persistent.BaseImpl.PermissionPolicy.PermissionPolicyRole);
+            this.securityStrategyComplex1.RoleType = typeof(Module.BusinessObjects.EmployeeRole);
             this.securityStrategyComplex1.AssociationPermissionsMode = AssociationPermissionsMode.Manual;
             // ApplicationUser descends from PermissionPolicyUser and supports OAuth authentication. For more information, refer to the following help topic: https://docs.devexpress.com/eXpressAppFramework/402197
             // If your application uses PermissionPolicyUser or a custom user type, set the UserType property as follows:
