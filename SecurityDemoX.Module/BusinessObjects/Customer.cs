@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp.DC;
+﻿using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
@@ -15,15 +16,14 @@ namespace SecurityDemoX.Module.BusinessObjects
     [XafDefaultProperty(nameof(FullName))]
     public class Customer : PartyRole
     {
-
         [ObjectValidatorIgnoreIssue(typeof(ObjectValidatorDefaultPropertyIsVirtual))]
         public virtual string FullName
         {
             get { return ObjectFormatter.Format($"{Party?.DisplayName} ; {Party?.Address1?.FullAddress}", this, EmptyEntriesMode.RemoveDelimiterWhenEntryIsEmpty); }
         }
 
-        public Customer(Session session) : base(session)
-        { }
+        public Customer(Session session) : base(session) { }
+
 
         [Association("Customer-Invoices")]
         public XPCollection<Invoice> Invoices
@@ -33,5 +33,10 @@ namespace SecurityDemoX.Module.BusinessObjects
                 return GetCollection<Invoice>(nameof(Invoices));
             }
         }
-    }
+
+		public override PartyRole CreatePersistentPartyRole(IObjectSpace objectSpace)
+		{
+            throw new NotImplementedException();
+        }
+	}
 }

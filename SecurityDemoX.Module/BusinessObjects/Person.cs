@@ -1,7 +1,9 @@
-﻿using DevExpress.ExpressApp.Filtering;
+﻿using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Filtering;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Base.General;
+using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
@@ -15,36 +17,44 @@ namespace SecurityDemoX.Module.BusinessObjects
 	[DefaultClassOptions]
 	[DefaultProperty(nameof(FullName))]
 	[ImageName("BO_Person")]
-	[CalculatedPersistentAliasAttribute(nameof(FullName), nameof(FullNamePersistentAlias))]
+	[CalculatedPersistentAlias(nameof(FullName), nameof(FullNamePersistentAlias))]
 	public class Person : Party, IPerson
 	{
+		string peselNumber;
 		private const string defaultFullNameFormat = "{FirstName} {MiddleName} {LastName}";
 		private const string defaultFullNamePersistentAlias = "concat(FirstName,' ', MiddleName,' ', LastName)";
+
 #if MediumTrust
 		[EditorBrowsable(EditorBrowsableState.Never), Browsable(false)]
 		public PersonImpl person = new PersonImpl();
 #else
 		private PersonImpl person = new PersonImpl();
 #endif
+
 		static Person()
 		{
 			PersonImpl.FullNameFormat = defaultFullNameFormat;
 		}
+
 		private static string fullNamePersistentAlias = defaultFullNamePersistentAlias;
 		public static string FullNamePersistentAlias
 		{
 			get { return fullNamePersistentAlias; }
 		}
+
 		public static void SetFullNameFormat(string format, string persistentAlias)
 		{
 			PersonImpl.FullNameFormat = format;
 			fullNamePersistentAlias = persistentAlias;
 		}
+
 		public Person(Session session) : base(session) { }
+
 		public void SetFullName(string fullName)
 		{
 			person.SetFullName(fullName);
 		}
+
 		public string FirstName
 		{
 			get { return person.FirstName; }
@@ -55,6 +65,7 @@ namespace SecurityDemoX.Module.BusinessObjects
 				OnChanged(nameof(FirstName), oldValue, person.FirstName);
 			}
 		}
+
 		public string LastName
 		{
 			get { return person.LastName; }
@@ -65,6 +76,7 @@ namespace SecurityDemoX.Module.BusinessObjects
 				OnChanged(nameof(LastName), oldValue, person.LastName);
 			}
 		}
+
 		public string MiddleName
 		{
 			get { return person.MiddleName; }
@@ -75,6 +87,7 @@ namespace SecurityDemoX.Module.BusinessObjects
 				OnChanged(nameof(MiddleName), oldValue, person.MiddleName);
 			}
 		}
+
 		public DateTime Birthday
 		{
 			get { return person.Birthday; }
@@ -85,17 +98,23 @@ namespace SecurityDemoX.Module.BusinessObjects
 				OnChanged(nameof(Birthday), oldValue, person.Birthday);
 			}
 		}
+
+
 		[SearchMemberOptions(SearchMemberMode.Include)]
 		[ObjectValidatorIgnoreIssue(typeof(ObjectValidatorDefaultPropertyIsVirtual))]
 		public virtual string FullName
 		{
 			get { return ObjectFormatter.Format(PersonImpl.FullNameFormat, this, EmptyEntriesMode.RemoveDelimiterWhenEntryIsEmpty); }
 		}
+
+
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public override string DisplayName
 		{
 			get { return FullName; }
 		}
+
+
 		[Size(255)]
 		public string Email
 		{
@@ -106,6 +125,21 @@ namespace SecurityDemoX.Module.BusinessObjects
 				person.Email = value;
 				OnChanged(nameof(Email), oldValue, person.Email);
 			}
+		}
+
+		
+		[Size(11)]
+		[RuleUniqueValue]
+		public string PeselNumber
+		{
+			get => peselNumber;
+			set => SetPropertyValue(nameof(PeselNumber), ref peselNumber, value);
+		}
+
+
+		public override Party CreatePersistentParty(IObjectSpace objectSpace)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
