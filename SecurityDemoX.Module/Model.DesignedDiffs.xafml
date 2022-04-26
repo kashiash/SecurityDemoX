@@ -1,15 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application Title="SecurityDemoX">
-  <BOModel>
-    <Class Name="DevExpress.Persistent.BaseImpl.PermissionPolicy.PermissionPolicyUser" Caption="Base User" />
-  </BOModel>
   <Options>
     <LayoutManagerOptions RequiredFieldMark="*" />
   </Options>
   <SchemaModules>
     <SchemaModule Name="CloneObjectModule" Version="21.2.6.0" IsNewNode="True" />
     <SchemaModule Name="SchedulerModuleBase" Version="21.2.6.0" IsNewNode="True" />
-    <SchemaModule Name="SystemModule" Version="21.2.6.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="21.2.7.0" IsNewNode="True" />
   </SchemaModules>
   <Views>
     <ListView Id="Customer_ListView">
@@ -18,10 +15,72 @@
         <ColumnInfo Id="Name" Removed="True" />
       </Columns>
     </ListView>
-    <ListView Id="Customer_LookupListView">
-      <Columns>
-        <ColumnInfo Id="Name" PropertyName="FullName" />
-      </Columns>
-    </ListView>
+    <DetailView Id="EnterPartyRole_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="100" Direction="Vertical">
+            <LayoutGroup Id="Auto940b338c-e9a0-4f99-8f6a-a271e2884107" ShowCaption="False" Caption="Auto940b338c-e9a0-4f99-8f6a-a271e2884107(3)" Direction="Vertical" Index="0" RelativeSize="100" IsNewNode="True">
+              <LayoutGroup Id="Auto67665b23-5a4b-4a4a-a7b9-2c600eff4854" ShowCaption="False" Caption="" Direction="Horizontal" Index="0" RelativeSize="7.361963190184049" IsNewNode="True">
+                <LayoutItem Id="IsOrganization" ViewItem="IsOrganization" Index="0" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="IsPerson" ViewItem="IsPerson" Index="1" RelativeSize="50" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Item1" ShowCaption="True" CaptionLocation="Top" Index="1" RelativeSize="15.541922290388548" Caption="Party" IsNewNode="True">
+                <LayoutItem Id="Party" ViewItem="Party" Index="0" RelativeSize="100" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Item2" ShowCaption="True" CaptionLocation="Top" Index="2" RelativeSize="77.0961145194274" Caption="Party role" IsNewNode="True">
+                <LayoutItem Id="PartyRole" ViewItem="PartyRole" Index="0" RelativeSize="100" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="EnterPartyRole" RelativeSize="100" Removed="True">
+              <LayoutGroup Id="EnterPartyRole_col1" RelativeSize="50" Caption="EnterPartyRole_col1">
+                <LayoutItem Id="IsPerson" Index="0" RelativeSize="8.200455580865604" Removed="True" />
+                <LayoutItem Id="Organization" Index="0" RelativeSize="100" />
+                <LayoutItem Id="IsOrganization" Removed="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="EnterPartyRole_col2" RelativeSize="50">
+                <LayoutItem Id="Customer" RelativeSize="5.922551252847381" />
+                <LayoutItem Id="IsCustomer" RelativeSize="85.87699316628702" />
+                <LayoutItem Id="Person" RelativeSize="8.200455580865604" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="Invoice_DetailView">
+      <Items>
+        <ActionContainerViewItem Id="NewAction" ActionContainer="EnterPartyRoleNewAction" Caption="NewAction" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="41.1764705882353">
+            <LayoutGroup Id="Invoice" RelativeSize="100">
+              <LayoutGroup Id="Invoice_col1" RelativeSize="33.333333333333336">
+                <LayoutItem Id="Overdue" RelativeSize="20.833333333333332" />
+                <LayoutItem Id="InvoiceNumber" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="InvoiceDate" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="DueDate" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="SumOfPayments" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="PaymentDate" RelativeSize="20.833333333333332" />
+              </LayoutGroup>
+              <LayoutGroup Id="Invoice_col2" RelativeSize="66.66666666666667">
+                <LayoutGroup Id="Auto088bcd3d-6f93-4250-911c-e74de75de004" ShowCaption="False" Caption="" Direction="Horizontal" Index="0" RelativeSize="23.4375" IsNewNode="True">
+                  <LayoutItem Id="Customer" ViewItem="Customer" Index="0" RelativeSize="47.3469387755102" IsNewNode="True" />
+                  <LayoutItem Id="NewAction" ViewItem="NewAction" Index="1" RelativeSize="52.6530612244898" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutItem Id="TotalNetto" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="TotalVat" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="TotalBrutto" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="Notes" RelativeSize="32.8125" />
+                <LayoutItem Id="Customer" Removed="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="ItemsNotes" Direction="Vertical" Index="1" RelativeSize="58.8235294117647">
+            <LayoutItem Id="InvoiceItems" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
   </Views>
 </Application>

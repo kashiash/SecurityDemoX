@@ -1,9 +1,4 @@
-﻿using DevExpress.ExpressApp.Editors;
-using DevExpress.Persistent.Base;
-using DevExpress.Persistent.BaseImpl;
-using DevExpress.Xpo;
-
-namespace SecurityDemoX.Module.BusinessObjects
+﻿namespace SecurityDemoX.Module.BusinessObjects
 {
     public class PartyRole : BaseObject
     {
@@ -14,6 +9,10 @@ namespace SecurityDemoX.Module.BusinessObjects
 
         PartyRoleType partyRoleType;
         Party party;
+        string description;
+        string name;
+
+
         [Association("Party-Roles")]
         [EditorAlias(EditorAliases.DetailPropertyEditor)]
         [ExpandObjectMembers(ExpandObjectMembers.Never)]
@@ -42,8 +41,7 @@ namespace SecurityDemoX.Module.BusinessObjects
             }
         }
 
-        string description;
-        string name;
+
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string Name
         {
@@ -69,6 +67,15 @@ namespace SecurityDemoX.Module.BusinessObjects
                     ref description,
                     value);
             }
+        }
+
+
+        public virtual PartyRole CreatePersistentPartyRole<T>(IObjectSpace objectSpace) where T : PartyRole
+        {
+            var partyRole = objectSpace.CreateObject<T>();
+            partyRole.Name = Name;
+            partyRole.Description = Description;
+            return partyRole;
         }
     }
 }

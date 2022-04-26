@@ -1,13 +1,4 @@
-﻿using DevExpress.ExpressApp.DC;
-using DevExpress.ExpressApp.Model;
-using DevExpress.Persistent.Base;
-using DevExpress.Persistent.BaseImpl;
-using DevExpress.Persistent.Validation;
-using DevExpress.Xpo;
-using System;
-using System.Linq;
-
-namespace SecurityDemoX.Module.BusinessObjects
+﻿namespace SecurityDemoX.Module.BusinessObjects
 {
     [DefaultClassOptions]
     [XafDefaultProperty(nameof(InvoiceNumber))]
@@ -192,7 +183,7 @@ namespace SecurityDemoX.Module.BusinessObjects
             decimal tmpVAT = 0m;
             decimal tmpBrutto = 0m;
 
-            foreach(var rec in InvoiceItems)
+            foreach (var rec in InvoiceItems)
             {
                 tmpNetto += rec.Netto;
                 tmpVAT += rec.Vat;
@@ -204,7 +195,7 @@ namespace SecurityDemoX.Module.BusinessObjects
 
             var a = totalBrutto;
 
-            if(forceChangeEvents)
+            if (forceChangeEvents)
             {
                 OnChanged(
                     nameof(TotalNetto),

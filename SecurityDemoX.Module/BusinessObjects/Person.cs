@@ -1,20 +1,9 @@
-﻿using DevExpress.ExpressApp.Filtering;
-using DevExpress.ExpressApp.Xpo;
-using DevExpress.Persistent.Base;
-using DevExpress.Persistent.Base.General;
-using DevExpress.Xpo;
-using System;
-using System.ComponentModel;
-using System.Linq;
-
-namespace SecurityDemoX.Module.BusinessObjects
+﻿namespace SecurityDemoX.Module.BusinessObjects
 {
     [DefaultClassOptions]
     [DefaultProperty(nameof(FullName))]
     [ImageName("BO_Person")]
-    [CalculatedPersistentAliasAttribute(
-        nameof(FullName),
-        nameof(FullNamePersistentAlias))]
+    [CalculatedPersistentAliasAttribute(nameof(FullName), nameof(FullNamePersistentAlias))]
     public class Person : Party, IPerson
     {
         private const string defaultFullNameFormat = "{FirstName} {MiddleName} {LastName}";
@@ -31,26 +20,20 @@ namespace SecurityDemoX.Module.BusinessObjects
             PersonImpl.FullNameFormat = defaultFullNameFormat;
         }
         private static string fullNamePersistentAlias = defaultFullNamePersistentAlias;
-
         public static string FullNamePersistentAlias
         {
             get { return fullNamePersistentAlias; }
         }
-
-        public static void SetFullNameFormat(
-            string format,
-            string persistentAlias)
+        public static void SetFullNameFormat(string format, string persistentAlias)
         {
             PersonImpl.FullNameFormat = format;
             fullNamePersistentAlias = persistentAlias;
         }
-
-        public Person(Session session) : base(session)
-        {
-        }
+        public Person(Session session) : base(session) { }
         public void SetFullName(string fullName)
-        { person.SetFullName(fullName); }
-
+        {
+            person.SetFullName(fullName);
+        }
         public string FirstName
         {
             get { return person.FirstName; }
@@ -58,13 +41,9 @@ namespace SecurityDemoX.Module.BusinessObjects
             {
                 string oldValue = person.FirstName;
                 person.FirstName = value;
-                OnChanged(
-                    nameof(FirstName),
-                    oldValue,
-                    person.FirstName);
+                OnChanged(nameof(FirstName), oldValue, person.FirstName);
             }
         }
-
         public string LastName
         {
             get { return person.LastName; }
@@ -72,13 +51,9 @@ namespace SecurityDemoX.Module.BusinessObjects
             {
                 string oldValue = person.LastName;
                 person.LastName = value;
-                OnChanged(
-                    nameof(LastName),
-                    oldValue,
-                    person.LastName);
+                OnChanged(nameof(LastName), oldValue, person.LastName);
             }
         }
-
         public string MiddleName
         {
             get { return person.MiddleName; }
@@ -86,13 +61,9 @@ namespace SecurityDemoX.Module.BusinessObjects
             {
                 string oldValue = person.MiddleName;
                 person.MiddleName = value;
-                OnChanged(
-                    nameof(MiddleName),
-                    oldValue,
-                    person.MiddleName);
+                OnChanged(nameof(MiddleName), oldValue, person.MiddleName);
             }
         }
-
         public DateTime Birthday
         {
             get { return person.Birthday; }
@@ -100,33 +71,20 @@ namespace SecurityDemoX.Module.BusinessObjects
             {
                 DateTime oldValue = person.Birthday;
                 person.Birthday = value;
-                OnChanged(
-                    nameof(Birthday),
-                    oldValue,
-                    person.Birthday);
+                OnChanged(nameof(Birthday), oldValue, person.Birthday);
             }
         }
-
         [SearchMemberOptions(SearchMemberMode.Include)]
-        [ObjectValidatorIgnoreIssue(
-            typeof(ObjectValidatorDefaultPropertyIsVirtual))]
+        [ObjectValidatorIgnoreIssue(typeof(ObjectValidatorDefaultPropertyIsVirtual))]
         public virtual string FullName
         {
-            get
-            {
-                return ObjectFormatter.Format(
-                    PersonImpl.FullNameFormat,
-                    this,
-                    EmptyEntriesMode.RemoveDelimiterWhenEntryIsEmpty);
-            }
+            get { return ObjectFormatter.Format(PersonImpl.FullNameFormat, this, EmptyEntriesMode.RemoveDelimiterWhenEntryIsEmpty); }
         }
-
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override string DisplayName
         {
             get { return FullName; }
         }
-
         [Size(255)]
         public string Email
         {
@@ -135,10 +93,7 @@ namespace SecurityDemoX.Module.BusinessObjects
             {
                 string oldValue = person.Email;
                 person.Email = value;
-                OnChanged(
-                    nameof(Email),
-                    oldValue,
-                    person.Email);
+                OnChanged(nameof(Email), oldValue, person.Email);
             }
         }
     }
