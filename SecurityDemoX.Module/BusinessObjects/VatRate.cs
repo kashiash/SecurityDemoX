@@ -19,13 +19,29 @@ namespace SecurityDemoX.Module.BusinessObjects
 
         [Size(3)]
         [Key(false)]
-        public string Symbol { get { return symbol; } set { SetPropertyValue(nameof(Symbol), ref symbol, value); } }
+        public string Symbol
+        {
+            get { return symbol; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Symbol),
+                    ref symbol,
+                    value);
+            }
+        }
 
 
         public decimal Value
         {
             get { return rateValue; }
-            set { SetPropertyValue(nameof(Value), ref rateValue, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Value),
+                    ref rateValue,
+                    value);
+            }
         }
     }
 }

@@ -4,16 +4,13 @@ using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SecurityDemoX.Module.BusinessObjects
 {
     [ImageName("BO_Role")]
     public class EmployeeRole : PermissionPolicyRoleBase, IPermissionPolicyRoleWithUsers
     {
-        public EmployeeRole(Session session)
-            : base(session)
+        public EmployeeRole(Session session) : base(session)
         {
         }
         [Association("Employees-Roles")]
@@ -21,13 +18,18 @@ namespace SecurityDemoX.Module.BusinessObjects
         {
             get
             {
-                return GetCollection<Employee>("Employees");
+                return GetCollection<Employee>(
+                    nameof(Employees));
             }
         }
 
         IEnumerable<IPermissionPolicyUser> IPermissionPolicyRoleWithUsers.Users
         {
-            get { return Employees.OfType<IPermissionPolicyUser>(); }
+            get
+            {
+                return Employees.OfType<IPermissionPolicyUser>(
+                    );
+            }
         }
     }
 }

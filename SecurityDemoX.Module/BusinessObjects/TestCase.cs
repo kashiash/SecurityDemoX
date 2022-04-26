@@ -3,11 +3,8 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SecurityDemoX.Module.BusinessObjects
 {
@@ -15,7 +12,8 @@ namespace SecurityDemoX.Module.BusinessObjects
     public class TestCase : BaseObject
     {
         public TestCase(Session session) : base(session)
-        { }
+        {
+        }
 
 
         int odometer;
@@ -25,22 +23,40 @@ namespace SecurityDemoX.Module.BusinessObjects
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string Description
         {
-            get => description;
-            set => SetPropertyValue(nameof(Description), ref description, value);
+            get { return description; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Description),
+                    ref description,
+                    value);
+            }
         }
 
 
         public CaseStatus CaseStatus
         {
-            get => caseStatus;
-            set => SetPropertyValue(nameof(CaseStatus), ref caseStatus, value);
+            get { return caseStatus; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(CaseStatus),
+                    ref caseStatus,
+                    value);
+            }
         }
 
 
         public int Odometer
         {
-            get => odometer;
-            set => SetPropertyValue(nameof(Odometer), ref odometer, value);
+            get { return odometer; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Odometer),
+                    ref odometer,
+                    value);
+            }
         }
 
 
@@ -49,14 +65,18 @@ namespace SecurityDemoX.Module.BusinessObjects
         {
             get
             {
-                return GetCollection<CaseItem>(nameof(CaseItems));
+                return GetCollection<CaseItem>(
+                    nameof(CaseItems));
             }
         }
     }
 
     public enum CaseStatus
     {
-        New, InProgres, Completed, Rejected
+        New,
+        InProgres,
+        Completed,
+        Rejected
     }
 
 
@@ -64,7 +84,8 @@ namespace SecurityDemoX.Module.BusinessObjects
     public class CaseItem : BaseObject
     {
         public CaseItem(Session session) : base(session)
-        { }
+        {
+        }
 
 
         int odometer;
@@ -73,31 +94,43 @@ namespace SecurityDemoX.Module.BusinessObjects
         [Association("TestCase-CaseItems")]
         public TestCase TestCase
         {
-            get => testCase;
-            set => SetPropertyValue(nameof(TestCase), ref testCase, value);
+            get { return testCase; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(TestCase),
+                    ref testCase,
+                    value);
+            }
         }
 
 
         public int Odometer
         {
-            get => odometer;
-            set => SetPropertyValue(nameof(Odometer), ref odometer, value);
+            get { return odometer; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Odometer),
+                    ref odometer,
+                    value);
+            }
         }
 
 
         [NonPersistent]
         [Browsable(false)]
         [RuleFromBoolProperty(
-                "TestCase_OdometerIntervalValid",
-                DefaultContexts.Save,
-                "Odometer should be greater then saved odometer!",
-                SkipNullOrEmptyValues = false,
-                UsedProperties = "Odometer")]
+            "TestCase_OdometerIntervalValid",
+            DefaultContexts.Save,
+            "Odometer should be greater then saved odometer!",
+            SkipNullOrEmptyValues = false,
+            UsedProperties = "Odometer")]
         public bool OdometerIsIntervalValid
         {
             get
             {
-                if (TestCase == null)
+                if(TestCase == null)
                     return true;
 
 

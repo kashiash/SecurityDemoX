@@ -30,8 +30,14 @@ namespace SecurityDemoX.Module.BusinessObjects
             get { return product; }
             set
             {
-                bool modified = SetPropertyValue(nameof(Product), ref product, value);
-                if(modified && !IsLoading && !IsSaving && Product != null)
+                bool modified = SetPropertyValue(
+                    nameof(Product),
+                    ref product,
+                    value);
+                if(modified &&
+                    !IsLoading &&
+                    !IsSaving &&
+                    Product != null)
                 {
                     unitPrice = Product.UnitPrice;
                     vatRate = Product.VatRate;
@@ -48,7 +54,10 @@ namespace SecurityDemoX.Module.BusinessObjects
             set
             {
                 var oldInvoice = invoice;
-                bool modified = SetPropertyValue(nameof(Invoice), ref invoice, value);
+                bool modified = SetPropertyValue(
+                    nameof(Invoice),
+                    ref invoice,
+                    value);
                 if(!IsLoading && !IsSaving && modified)
                 {
                     oldInvoice = oldInvoice ?? invoice;
@@ -63,7 +72,10 @@ namespace SecurityDemoX.Module.BusinessObjects
             get { return quantity; }
             set
             {
-                bool modified = SetPropertyValue(nameof(Quantity), ref quantity, value);
+                bool modified = SetPropertyValue(
+                    nameof(Quantity),
+                    ref quantity,
+                    value);
                 if(modified && !IsLoading && !IsSaving)
                 {
                     RecalculateItem();
@@ -77,7 +89,10 @@ namespace SecurityDemoX.Module.BusinessObjects
             get { return unitPrice; }
             set
             {
-                bool modified = SetPropertyValue(nameof(UnitPrice), ref unitPrice, value);
+                bool modified = SetPropertyValue(
+                    nameof(UnitPrice),
+                    ref unitPrice,
+                    value);
                 if(modified && !IsLoading && !IsSaving)
                 {
                     RecalculateItem();
@@ -92,7 +107,10 @@ namespace SecurityDemoX.Module.BusinessObjects
             get { return vatRate; }
             set
             {
-                bool modified = SetPropertyValue(nameof(VatRate), ref vatRate, value);
+                bool modified = SetPropertyValue(
+                    nameof(VatRate),
+                    ref vatRate,
+                    value);
                 if(modified && !IsLoading && !IsSaving)
                 {
                     RecalculateItem();
@@ -101,20 +119,52 @@ namespace SecurityDemoX.Module.BusinessObjects
         }
 
         [ModelDefault("AllowEdit", "False")]
-        public decimal Netto { get { return netto; } set { SetPropertyValue(nameof(Netto), ref netto, value); } }
+        public decimal Netto
+        {
+            get { return netto; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Netto),
+                    ref netto,
+                    value);
+            }
+        }
 
         [ModelDefault("AllowEdit", "False")]
-        public decimal Vat { get { return vat; } set { SetPropertyValue(nameof(Vat), ref vat, value); } }
+        public decimal Vat
+        {
+            get { return vat; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Vat),
+                    ref vat,
+                    value);
+            }
+        }
 
         [ModelDefault("AllowEdit", "False")]
-        public decimal Brutto { get { return brutto; } set { SetPropertyValue(nameof(Brutto), ref brutto, value); } }
+        public decimal Brutto
+        {
+            get { return brutto; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Brutto),
+                    ref brutto,
+                    value);
+            }
+        }
 
         private void RecalculateItem()
         {
             Netto = Quantity * UnitPrice;
             if(Product != null && Product.VatRate != null)
             {
-                Brutto = Netto * (100 + Product.VatRate.Value) / 100;
+                Brutto = Netto *
+                    (100 + Product.VatRate.Value) /
+                    100;
             } else
             {
                 Brutto = Netto;

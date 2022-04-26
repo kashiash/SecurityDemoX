@@ -1,5 +1,4 @@
-﻿using DevExpress.ExpressApp.ConditionalAppearance;
-using DevExpress.ExpressApp.DC;
+﻿using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
@@ -14,7 +13,6 @@ namespace SecurityDemoX.Module.BusinessObjects
     [XafDefaultProperty(nameof(InvoiceNumber))]
 
 
-
     public class Invoice : BaseObject
     {
         public Invoice(Session session) : base(session)
@@ -22,7 +20,8 @@ namespace SecurityDemoX.Module.BusinessObjects
         }
 
         //[Browsable(false)]
-        public bool Overdue => SumOfPayments < TotalBrutto && PaymentDate < DateTime.Now;
+        public bool Overdue => SumOfPayments < TotalBrutto &&
+            PaymentDate < DateTime.Now;
 
         DateTime paymentDate;
         decimal sumOfPayments;
@@ -41,77 +40,148 @@ namespace SecurityDemoX.Module.BusinessObjects
         public string InvoiceNumber
         {
             get { return invoiceNumber; }
-            set { SetPropertyValue(nameof(InvoiceNumber), ref invoiceNumber, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(InvoiceNumber),
+                    ref invoiceNumber,
+                    value);
+            }
         }
 
 
         public DateTime InvoiceDate
         {
             get { return invoiceDate; }
-            set { SetPropertyValue(nameof(InvoiceDate), ref invoiceDate, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(InvoiceDate),
+                    ref invoiceDate,
+                    value);
+            }
         }
 
 
         public DateTime DueDate
         {
             get { return dueDate; }
-            set { SetPropertyValue(nameof(DueDate), ref dueDate, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(DueDate),
+                    ref dueDate,
+                    value);
+            }
         }
 
 
         public decimal SumOfPayments
         {
             get { return sumOfPayments; }
-            set { SetPropertyValue(nameof(SumOfPayments), ref sumOfPayments, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(SumOfPayments),
+                    ref sumOfPayments,
+                    value);
+            }
         }
 
 
         public DateTime PaymentDate
         {
             get { return paymentDate; }
-            set { SetPropertyValue(nameof(PaymentDate), ref paymentDate, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(PaymentDate),
+                    ref paymentDate,
+                    value);
+            }
         }
 
         [Association("Customer-Invoices")]
         public Customer Customer
         {
             get { return customer; }
-            set { SetPropertyValue(nameof(Customer), ref customer, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Customer),
+                    ref customer,
+                    value);
+            }
         }
 
         [ModelDefault("AllowEdit", "False")]
         public decimal TotalNetto
         {
             get { return totalNetto; }
-            set { SetPropertyValue(nameof(TotalNetto), ref totalNetto, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(TotalNetto),
+                    ref totalNetto,
+                    value);
+            }
         }
 
         [ModelDefault("AllowEdit", "False")]
         public decimal TotalVat
         {
             get { return totalVat; }
-            set { SetPropertyValue(nameof(TotalVat), ref totalVat, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(TotalVat),
+                    ref totalVat,
+                    value);
+            }
         }
 
         [ModelDefault("AllowEdit", "False")]
         public decimal TotalBrutto
         {
             get { return totalBrutto; }
-            set { SetPropertyValue(nameof(TotalBrutto), ref totalBrutto, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(TotalBrutto),
+                    ref totalBrutto,
+                    value);
+            }
         }
 
-        [DetailViewLayoutAttribute("ItemsNotes", LayoutGroupType.TabbedGroup, 100)]
+        [DetailViewLayoutAttribute(
+            "ItemsNotes",
+            LayoutGroupType.TabbedGroup,
+            100)]
         [Association, DevExpress.Xpo.Aggregated]
         public XPCollection<InvoiceItem> InvoiceItems
         {
-            get { return GetCollection<InvoiceItem>(nameof(InvoiceItems)); }
+            get
+            {
+                return GetCollection<InvoiceItem>(
+                    nameof(InvoiceItems));
+            }
         }
 
 
+        public string Notes
+        {
+            get { return notes; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Notes),
+                    ref notes,
+                    value);
+            }
+        }
 
-        public string Notes { get { return notes; } set { SetPropertyValue(nameof(Notes), ref notes, value); } }
-
-        internal void RecalculateTotals(bool forceChangeEvents = true)
+        internal void RecalculateTotals(
+            bool forceChangeEvents = true)
         {
             decimal oldNetto = TotalNetto;
             decimal oldVAT = TotalVat;
@@ -136,9 +206,18 @@ namespace SecurityDemoX.Module.BusinessObjects
 
             if(forceChangeEvents)
             {
-                OnChanged(nameof(TotalNetto), oldNetto, TotalNetto);
-                OnChanged(nameof(TotalVat), oldVAT, TotalVat);
-                OnChanged(nameof(TotalBrutto), oldBrutto, TotalBrutto);
+                OnChanged(
+                    nameof(TotalNetto),
+                    oldNetto,
+                    TotalNetto);
+                OnChanged(
+                    nameof(TotalVat),
+                    oldVAT,
+                    TotalVat);
+                OnChanged(
+                    nameof(TotalBrutto),
+                    oldBrutto,
+                    TotalBrutto);
             }
         }
     }

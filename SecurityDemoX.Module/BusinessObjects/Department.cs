@@ -2,11 +2,8 @@
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SecurityDemoX.Module.BusinessObjects
 {
@@ -21,11 +18,38 @@ namespace SecurityDemoX.Module.BusinessObjects
         {
         }
 
-        public string Title { get { return title; } set { SetPropertyValue(nameof(Title), ref title, value); } }
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Title),
+                    ref title,
+                    value);
+            }
+        }
 
-        public string Office { get { return office; } set { SetPropertyValue(nameof(Office), ref office, value); } }
+        public string Office
+        {
+            get { return office; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Office),
+                    ref office,
+                    value);
+            }
+        }
 
         [Association]
-        public XPCollection<Employee> Employees { get { return GetCollection<Employee>(nameof(Employees)); } }
+        public XPCollection<Employee> Employees
+        {
+            get
+            {
+                return GetCollection<Employee>(
+                    nameof(Employees));
+            }
+        }
     }
 }

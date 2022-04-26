@@ -16,34 +16,64 @@ namespace SecurityDemoX.Module.BusinessObjects
         }
 
         string shortName;
-      
+
         string notes;
         string gTIN;
         string productName;
         string symbol;
 
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
-        public string Symbol { get { return symbol; } set { SetPropertyValue(nameof(Symbol), ref symbol, value); } }
+        public string Symbol
+        {
+            get { return symbol; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Symbol),
+                    ref symbol,
+                    value);
+            }
+        }
 
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string ProductName
         {
             get { return productName; }
-            set { SetPropertyValue(nameof(ProductName), ref productName, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(ProductName),
+                    ref productName,
+                    value);
+            }
         }
 
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string ShortName
         {
             get { return shortName; }
-            set { SetPropertyValue(nameof(ShortName), ref shortName, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(ShortName),
+                    ref shortName,
+                    value);
+            }
         }
 
 
-
-
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
-        public string GTIN { get { return gTIN; } set { SetPropertyValue(nameof(GTIN), ref gTIN, value); } }
+        public string GTIN
+        {
+            get { return gTIN; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(GTIN),
+                    ref gTIN,
+                    value);
+            }
+        }
 
 
         VatRate vatRate;
@@ -52,20 +82,43 @@ namespace SecurityDemoX.Module.BusinessObjects
         public decimal UnitPrice
         {
             get { return unitPrice; }
-            set { SetPropertyValue(nameof(UnitPrice), ref unitPrice, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(UnitPrice),
+                    ref unitPrice,
+                    value);
+            }
         }
 
 
         public VatRate VatRate
         {
             get { return vatRate; }
-            set { SetPropertyValue(nameof(VatRate), ref vatRate, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(VatRate),
+                    ref vatRate,
+                    value);
+            }
         }
 
-        [DetailViewLayout("GroupsAndNotes", LayoutGroupType.TabbedGroup, 100)]
+        [DetailViewLayout(
+            "GroupsAndNotes",
+            LayoutGroupType.TabbedGroup,
+            100)]
         [Size(SizeAttribute.Unlimited)]
-        public string Notes { get { return notes; } set { SetPropertyValue(nameof(Notes), ref notes, value); } }
-
-
+        public string Notes
+        {
+            get { return notes; }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Notes),
+                    ref notes,
+                    value);
+            }
+        }
     }
 }

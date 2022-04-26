@@ -5,10 +5,8 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 
 
 namespace SecurityDemoX.Module.BusinessObjects
@@ -31,32 +29,58 @@ namespace SecurityDemoX.Module.BusinessObjects
         public string Subject
         {
             get { return _Subject; }
-            set { SetPropertyValue(nameof(Subject), ref _Subject, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Subject),
+                    ref _Subject,
+                    value);
+            }
         }
 
         public TaskStatus Status
         {
             get { return _Status; }
-            set { SetPropertyValue(nameof(Status), ref _Status, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Status),
+                    ref _Status,
+                    value);
+            }
         }
 
         [Size(SizeAttribute.Unlimited)]
         public string Description
         {
             get { return _Description; }
-            set { SetPropertyValue(nameof(Description), ref _Description, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(Description),
+                    ref _Description,
+                    value);
+            }
         }
 
         public DateTime DueDate
         {
             get { return _DueDate; }
-            set { SetPropertyValue(nameof(DueDate), ref _DueDate, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(DueDate),
+                    ref _DueDate,
+                    value);
+            }
         }
 
-        [Action(ToolTip = "Postpone the task to the next day", ImageName = "State_Task_Deferred")]
+        [Action(
+            ToolTip = "Postpone the task to the next day",
+            ImageName = "State_Task_Deferred")]
         public void Postpone()
         {
-            if (DueDate == DateTime.MinValue)
+            if(DueDate == DateTime.MinValue)
             {
                 DueDate = DateTime.Now;
             }
@@ -68,7 +92,13 @@ namespace SecurityDemoX.Module.BusinessObjects
         public Employee AssignedTo
         {
             get { return _AssignedTo; }
-            set { SetPropertyValue(nameof(AssignedTo), ref _AssignedTo, value); }
+            set
+            {
+                SetPropertyValue(
+                    nameof(AssignedTo),
+                    ref _AssignedTo,
+                    value);
+            }
         }
     }
 }
