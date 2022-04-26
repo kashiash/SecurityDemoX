@@ -7,7 +7,6 @@ using DevExpress.ExpressApp.Editors;
 
 namespace SecurityDemoX.Module.BusinessObjects
 {
-
     public class PartyRole : BaseObject
     {
         public PartyRole(Session session) : base(session) { }
@@ -52,9 +51,12 @@ namespace SecurityDemoX.Module.BusinessObjects
         }
 
 
-		public virtual PartyRole CreatePersistentPartyRole(IObjectSpace objectSpace)
+		public virtual PartyRole CreatePersistentPartyRole<T>(IObjectSpace objectSpace) where T : PartyRole
 		{
-            throw new NotImplementedException();
+            var partyRole = objectSpace.CreateObject<T>();
+            partyRole.Name = Name;
+            partyRole.Description = Description;
+            return partyRole;
         }
 	}
 }

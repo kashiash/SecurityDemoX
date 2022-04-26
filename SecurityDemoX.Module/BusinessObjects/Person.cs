@@ -137,9 +137,20 @@ namespace SecurityDemoX.Module.BusinessObjects
 		}
 
 
-		public override Party CreatePersistentParty(IObjectSpace objectSpace)
+		public override Party CreatePersistentParty<T>(IObjectSpace objectSpace)
 		{
-			throw new NotImplementedException();
+			var person = objectSpace.GetObjectsQuery<Person>().Where(x => x.PeselNumber == PeselNumber).FirstOrDefault();
+			if (person == null)
+			{
+				person = base.CreatePersistentParty<Person>(objectSpace) as Person;
+				person.Birthday = Birthday;
+				person.Email = Email;
+				person.FirstName = FirstName;
+				person.LastName = LastName;
+				person.MiddleName = MiddleName;
+				person.PeselNumber = PeselNumber;
+			}
+			return person;
 		}
 	}
 }

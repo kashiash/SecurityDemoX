@@ -47,5 +47,40 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <DetailView Id="Invoice_DetailView">
+      <Items>
+        <ActionContainerViewItem Id="NewAction" ActionContainer="EnterPartyRoleNewAction" Caption="NewAction" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="41.1764705882353">
+            <LayoutGroup Id="Invoice" RelativeSize="100">
+              <LayoutGroup Id="Invoice_col1" RelativeSize="33.333333333333336">
+                <LayoutItem Id="Overdue" RelativeSize="20.833333333333332" />
+                <LayoutItem Id="InvoiceNumber" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="InvoiceDate" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="DueDate" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="SumOfPayments" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="PaymentDate" RelativeSize="20.833333333333332" />
+              </LayoutGroup>
+              <LayoutGroup Id="Invoice_col2" RelativeSize="66.66666666666667">
+                <LayoutGroup Id="Auto088bcd3d-6f93-4250-911c-e74de75de004" ShowCaption="False" Caption="" Direction="Horizontal" Index="0" RelativeSize="23.4375" IsNewNode="True">
+                  <LayoutItem Id="Customer" ViewItem="Customer" Index="0" RelativeSize="47.3469387755102" IsNewNode="True" />
+                  <LayoutItem Id="NewAction" ViewItem="NewAction" Index="1" RelativeSize="52.6530612244898" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutItem Id="TotalNetto" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="TotalVat" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="TotalBrutto" RelativeSize="14.583333333333334" />
+                <LayoutItem Id="Notes" RelativeSize="32.8125" />
+                <LayoutItem Id="Customer" Removed="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="ItemsNotes" Direction="Vertical" Index="1" RelativeSize="58.8235294117647">
+            <LayoutItem Id="InvoiceItems" RelativeSize="100" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
   </Views>
 </Application>

@@ -76,9 +76,11 @@ namespace SecurityDemoX.Module.BusinessObjects
             }
         }
 
-		public virtual Party CreatePersistentParty(IObjectSpace objectSpace)
+		public virtual Party CreatePersistentParty<T>(IObjectSpace objectSpace) where T : Party
 		{
-			throw new NotImplementedException();
-		}
+			var party = objectSpace.CreateObject<T>();
+			party.Photo = Photo;
+			return party;
+		}	
 	}
 }

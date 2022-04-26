@@ -34,9 +34,9 @@ namespace SecurityDemoX.Module.BusinessObjects
             }
         }
 
-		public override PartyRole CreatePersistentPartyRole(IObjectSpace objectSpace)
+		public override PartyRole CreatePersistentPartyRole<T>(IObjectSpace objectSpace)
 		{
-            throw new NotImplementedException();
+            return base.CreatePersistentPartyRole<Customer>(objectSpace);   
         }
 	}
 }

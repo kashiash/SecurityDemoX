@@ -19,7 +19,7 @@ namespace SecurityDemoX.Module.Controllers
 
 		public EnterPartyRoleController()
 		{
-			newPartyRoleAction = new PopupWindowShowAction(this, nameof(newPartyRoleAction), PredefinedCategory.Unspecified)
+			newPartyRoleAction = new PopupWindowShowAction(this, nameof(newPartyRoleAction), "EnterPartyRoleNewAction")
 			{
 				Caption = "New",
 				PaintStyle = ActionItemPaintStyle.Caption
@@ -45,9 +45,10 @@ namespace SecurityDemoX.Module.Controllers
 
 		private void CreatePersistentObjects(EnterPartyRole enterPartyRole)
 		{
-			var partyRole = enterPartyRole.PartyRole.CreatePersistentPartyRole(ObjectSpace);
-			partyRole.Party = enterPartyRole.Party.CreatePersistentParty(ObjectSpace);
+			var partyRole = enterPartyRole.PartyRole.CreatePersistentPartyRole<PartyRole>(ObjectSpace);
+			partyRole.Party = enterPartyRole.Party.CreatePersistentParty<Party>(ObjectSpace);
 			ViewCurrentObject.PartyRole = partyRole;
+			View.Refresh(true);
 		}
 	}
 }

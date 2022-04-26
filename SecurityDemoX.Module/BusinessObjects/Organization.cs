@@ -78,9 +78,21 @@ namespace SecurityDemoX.Module.BusinessObjects
 		}
 
 
-		public override Party CreatePersistentParty(IObjectSpace objectSpace)
+		public override Party CreatePersistentParty<T>(IObjectSpace objectSpace)
 		{
-			throw new NotImplementedException();
+			var organization = objectSpace.GetObjectsQuery<Organization>().Where(x => x.NipNumber == NipNumber).FirstOrDefault();
+			if (organization == null)
+			{
+				organization = base.CreatePersistentParty<Organization>(objectSpace) as Organization;
+				organization.Description = Description;
+				organization.Email = Email;
+				organization.fullName = fullName;
+				organization.Name = Name;
+				organization.NipNumber = NipNumber;
+				organization.Profile = Profile;
+				organization.WebSite = WebSite;
+			}
+			return organization;
 		}
 	}
 }
