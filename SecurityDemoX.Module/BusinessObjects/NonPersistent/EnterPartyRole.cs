@@ -8,63 +8,9 @@ using DevExpress.ExpressApp.ConditionalAppearance;
 namespace SecurityDemoX.Module.BusinessObjects.NonPersistent
 {
 	[DomainComponent]
-	public class EnterPartyRole : NonPersistentBaseObject
+	public class EnterPartyRole : NonPersistentLiteObject
 	{
-		private Party party;
 		private PartyRole partyRole;
-		private bool isPerson;
-		private bool isOrganization;
-
-
-		[ImmediatePostData]
-		public bool IsOrganization
-		{
-			get => isOrganization;
-			set
-			{
-				bool modified = SetPropertyValue(ref isOrganization, value);
-				if (modified)
-				{
-					if (value == true)
-					{
-						IsPerson = false;
-						if (Party != null) Party.Delete();
-						Party = ObjectSpace.CreateObject<Organization>();
-					}
-				}
-			}
-		}
-
-
-		[ImmediatePostData]
-		public bool IsPerson
-		{
-			get => isPerson;
-			set
-			{
-				bool modified = SetPropertyValue(ref isPerson, value);
-				if (modified)
-				{
-					if (value == true)
-					{
-						IsOrganization = false;
-						if (Party != null) Party.Delete();
-						Party = ObjectSpace.CreateObject<Person>();
-					}
-				}
-			}
-		}
-
-
-		[EditorAlias(EditorAliases.DetailPropertyEditor)]
-		[ExpandObjectMembers(ExpandObjectMembers.Never)]
-		public Party Party
-		{
-			get => party;
-			set => SetPropertyValue(ref party, value);
-		}
-
-
 
 		[EditorAlias(EditorAliases.DetailPropertyEditor)]
 		[ExpandObjectMembers(ExpandObjectMembers.Never)]
@@ -75,12 +21,10 @@ namespace SecurityDemoX.Module.BusinessObjects.NonPersistent
 		}
 
 
-		public void SetPartyRoleType(Type partyRoleType)
+		public void SetPartyRoleType(IObjectSpace objectSpace, Type partyRoleType, Type partyType)
 		{
-			if (partyRoleType == typeof(Customer))
-			{
-				PartyRole = ObjectSpace.CreateObject<Customer>();
-			}
+			PartyRole = objectSpace.CreateObject(partyRoleType) as PartyRole;
+			PartyRole.Party = objectSpace.CreateObject(partyType) as Party;
 		}
 	}
 }

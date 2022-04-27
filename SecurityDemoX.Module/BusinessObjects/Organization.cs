@@ -1,4 +1,9 @@
-﻿namespace SecurityDemoX.Module.BusinessObjects
+﻿using DevExpress.Persistent.Base;
+using DevExpress.Xpo;
+using System;
+using System.Linq;
+
+namespace SecurityDemoX.Module.BusinessObjects
 {
     [DefaultClassOptions]
     public class Organization : Party

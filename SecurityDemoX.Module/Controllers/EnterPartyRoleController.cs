@@ -1,5 +1,6 @@
 ﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
+using DevExpress.ExpressApp.SystemModule;
 using DevExpress.ExpressApp.Templates;
 using DevExpress.Persistent.Base;
 using SecurityDemoX.Module.BusinessObjects;
@@ -15,39 +16,50 @@ namespace SecurityDemoX.Module.Controllers
 {
 	public class EnterPartyRoleController : ObjectViewController<DetailView, IEnterPartyRole>
 	{
-		private readonly PopupWindowShowAction newPartyRoleAction;
+		private readonly SingleChoiceAction newPartyRoleAction;
 
 		public EnterPartyRoleController()
 		{
-			newPartyRoleAction = new PopupWindowShowAction(this, nameof(newPartyRoleAction), "EnterPartyRoleNewAction")
+			newPartyRoleAction = new SingleChoiceAction(this, nameof(newPartyRoleAction), "EnterPartyRoleNewAction")
 			{
 				Caption = "New",
-				PaintStyle = ActionItemPaintStyle.Caption
 			};
-			newPartyRoleAction.CustomizePopupWindowParams += NewPartyRoleAction_CustomizePopupWindowParams;
 			newPartyRoleAction.Execute += NewPartyRoleAction_Execute;
 		}
 
-
-		private void NewPartyRoleAction_CustomizePopupWindowParams(object sender, CustomizePopupWindowParamsEventArgs e)
+		protected override void OnActivated()
 		{
-			var objectSpace = Application.CreateObjectSpace(typeof(EnterPartyRole));
+			base.OnActivated();
+			FillNewPartyRoleActionItems();
+		}
+
+		private void FillNewPartyRoleActionItems()
+		{
+			var partyTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes())
+				.Where(type => type.IsSubclassOf(typeof(Party)));
+
+			newPartyRoleAction.Items.Clear();
+			foreach (var partyType in partyTypes)
+			{
+				newPartyRoleAction.Items.Add(new ChoiceActionItem($"{partyType.Name}", partyType));
+			}
+		}
+
+		private void NewPartyRoleAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
+		{
+			var objectSpace = Application.CreateObjectSpace();
 			var enterPartyRole = objectSpace.CreateObject<EnterPartyRole>();
-			enterPartyRole.SetPartyRoleType(ViewCurrentObject.PartyRoleType);
-			e.View = Application.CreateDetailView(objectSpace, enterPartyRole);
+			enterPartyRole.SetPartyRoleType(objectSpace, ViewCurrentObject.PartyRoleType, e.SelectedChoiceActionItem.Data as Type);
+			var dc = new DialogController();
+			dc.AcceptAction.Execute += AcceptAction_Execute;
+			e.ShowViewParameters.CreatedView = Application.CreateDetailView(objectSpace, enterPartyRole);
+			e.ShowViewParameters.Controllers.Add(dc);
 		}
 
-		private void NewPartyRoleAction_Execute(object sender, PopupWindowShowActionExecuteEventArgs e)
+		private void AcceptAction_Execute(object sender, SimpleActionExecuteEventArgs e)
 		{
-			var enterPartyRole = e.PopupWindowViewCurrentObject as EnterPartyRole;
-			CreatePersistentObjects(enterPartyRole);
-		}
-
-		private void CreatePersistentObjects(EnterPartyRole enterPartyRole)
-		{
-			var partyRole = enterPartyRole.PartyRole.CreatePersistentPartyRole<PartyRole>(ObjectSpace);
-			partyRole.Party = enterPartyRole.Party.CreatePersistentParty<Party>(ObjectSpace);
-			ViewCurrentObject.PartyRole = partyRole;
+			var enterPartyRole = e.CurrentObject as EnterPartyRole;
+			ViewCurrentObject.PartyRole = ObjectSpace.GetObject(enterPartyRole.PartyRole);
 			View.Refresh(true);
 		}
 	}

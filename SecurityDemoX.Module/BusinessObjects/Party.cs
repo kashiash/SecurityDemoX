@@ -1,4 +1,11 @@
-﻿namespace SecurityDemoX.Module.BusinessObjects
+﻿using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+using System;
+using System.ComponentModel;
+using System.Linq;
+
+namespace SecurityDemoX.Module.BusinessObjects
 {
     [MapInheritance(MapInheritanceType.OwnTable)]
     [DefaultProperty(nameof(DisplayName))]
@@ -53,13 +60,6 @@
                 return GetCollection<PartyRole>(
                     nameof(Roles));
             }
-        }
-
-        public virtual Party CreatePersistentParty<T>(IObjectSpace objectSpace) where T : Party
-        {
-            var party = objectSpace.CreateObject<T>();
-            party.Photo = Photo;
-            return party;
         }
     }
 }

@@ -1,4 +1,13 @@
-﻿namespace SecurityDemoX.Module.BusinessObjects
+﻿using DevExpress.ExpressApp.Filtering;
+using DevExpress.ExpressApp.Xpo;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.Base.General;
+using DevExpress.Xpo;
+using System;
+using System.ComponentModel;
+using System.Linq;
+
+namespace SecurityDemoX.Module.BusinessObjects
 {
     [DefaultClassOptions]
     [DefaultProperty(nameof(FullName))]

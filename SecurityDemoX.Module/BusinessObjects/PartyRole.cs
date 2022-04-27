@@ -1,4 +1,11 @@
-﻿namespace SecurityDemoX.Module.BusinessObjects
+﻿using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.Model;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+using System.Linq;
+
+namespace SecurityDemoX.Module.BusinessObjects
 {
     public class PartyRole : BaseObject
     {
@@ -29,6 +36,8 @@
         }
 
 
+        [ModelDefault(nameof(IModelCommonMemberViewItem.AllowEdit),
+            "false")]
         public PartyRoleType PartyRoleType
         {
             get { return partyRoleType; }
@@ -69,13 +78,10 @@
             }
         }
 
-
-        public virtual PartyRole CreatePersistentPartyRole<T>(IObjectSpace objectSpace) where T : PartyRole
-        {
-            var partyRole = objectSpace.CreateObject<T>();
-            partyRole.Name = Name;
-            partyRole.Description = Description;
-            return partyRole;
-        }
-    }
+		public override void AfterConstruction()
+		{
+			base.AfterConstruction();
+            partyRoleType = Session.Query<PartyRoleType>().Where(x => x.Name == GetType().Name).FirstOrDefault();
+		}
+	}
 }

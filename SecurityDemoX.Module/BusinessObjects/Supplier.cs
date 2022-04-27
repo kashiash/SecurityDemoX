@@ -5,7 +5,7 @@ using DevExpress.Xpo;
 namespace SecurityDemoX.Module.BusinessObjects
 {
     [DefaultClassOptions]
-    public class Supplier : BaseObject, IPartyRoleType
+    public class Supplier : PartyRole, IPartyRoleType
     {
         public Supplier(Session session) : base(session)
         {

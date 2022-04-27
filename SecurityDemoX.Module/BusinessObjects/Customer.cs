@@ -1,4 +1,8 @@
-﻿namespace SecurityDemoX.Module.BusinessObjects
+﻿using DevExpress.ExpressApp.DC;
+using DevExpress.Persistent.Base;
+using DevExpress.Xpo;
+
+namespace SecurityDemoX.Module.BusinessObjects
 {
     [DefaultClassOptions]
     [MapInheritance(MapInheritanceType.ParentTable)]
@@ -30,11 +34,6 @@
                 return GetCollection<Invoice>(
                     nameof(Invoices));
             }
-        }
-
-        public override PartyRole CreatePersistentPartyRole<T>(IObjectSpace objectSpace)
-        {
-            return base.CreatePersistentPartyRole<Customer>(objectSpace);
         }
     }
 }

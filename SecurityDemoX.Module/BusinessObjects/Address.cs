@@ -1,4 +1,13 @@
-﻿namespace SecurityDemoX.Module.BusinessObjects
+﻿using DevExpress.ExpressApp.Xpo;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.Base.General;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+using System;
+using System.ComponentModel;
+using System.Linq;
+
+namespace SecurityDemoX.Module.BusinessObjects
 {
     [DefaultProperty(nameof(FullAddress))]
     [CalculatedPersistentAliasAttribute(
