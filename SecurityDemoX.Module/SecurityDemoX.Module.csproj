@@ -13,6 +13,9 @@
     <EmbeddedResource Include="Model.DesignedDiffs.xafml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="DevExpress.ExpressApp" Version="21.2.6" />
     <PackageReference Include="DevExpress.ExpressApp.AuditTrail.Xpo" Version="21.2.6" />
     <PackageReference Include="DevExpress.ExpressApp.CloneObject.Xpo" Version="21.2.6" />

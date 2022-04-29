@@ -137,6 +137,7 @@ namespace SecurityDemoX.Module.DatabaseUpdate
 			AddTask("Clean the table", userJohn);
 
 			AddPartyRoleTypes();
+			AddProductRoleTypes();
 
 			ObjectSpace.CommitChanges(); //This line persists created object(s).
 		}
@@ -279,6 +280,21 @@ namespace SecurityDemoX.Module.DatabaseUpdate
 				var partyRoleType = ObjectSpace.CreateObject<PartyRoleType>();
 				partyRoleType.Name = item.Name;
 				partyRoleType.FullName = item.AssemblyQualifiedName;
+			}
+		}
+
+		private void AddProductRoleTypes()
+		{
+			if (ObjectSpace.GetObjectsQuery<ProductRoleType>().Any()) return;
+
+			var productRoleTypes = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes())
+				.Where(type => type.IsSubclassOf(typeof(ProductType)));
+
+			foreach (var item in productRoleTypes)
+			{
+				var productRoleType = ObjectSpace.CreateObject<ProductRoleType>();
+				productRoleType.Name = item.Name;
+				productRoleType.FullName = item.AssemblyQualifiedName;
 			}
 		}
 	}

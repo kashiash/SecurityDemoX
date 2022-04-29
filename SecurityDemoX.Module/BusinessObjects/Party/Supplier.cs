@@ -1,4 +1,5 @@
-﻿using DevExpress.Persistent.Base;
+﻿using DevExpress.ExpressApp.DC;
+using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 

@@ -120,5 +120,15 @@ namespace SecurityDemoX.Module.BusinessObjects
                     value);
             }
         }
-    }
+
+
+		[Association("Product-ProductTypes")]
+		public XPCollection<ProductType> ProductTypes
+		{
+			get
+			{
+				return GetCollection<ProductType>(nameof(ProductTypes));
+			}
+		}
+	}
 }

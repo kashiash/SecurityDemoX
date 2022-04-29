@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp.Editors;
+﻿using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
@@ -7,12 +8,26 @@ using System.Linq;
 
 namespace SecurityDemoX.Module.BusinessObjects
 {
+    [XafDefaultProperty(nameof(FullName))]
     public class PartyRole : BaseObject
     {
         public PartyRole(Session session) : base(session)
         {
         }
 
+
+        [ObjectValidatorIgnoreIssue(
+    typeof(ObjectValidatorDefaultPropertyIsVirtual))]
+        public virtual string FullName
+        {
+            get
+            {
+                return ObjectFormatter.Format(
+                    $"{Party?.DisplayName} ; {Party?.Address1?.FullAddress}",
+                    this,
+                    EmptyEntriesMode.RemoveDelimiterWhenEntryIsEmpty);
+            }
+        }
 
         PartyRoleType partyRoleType;
         Party party;

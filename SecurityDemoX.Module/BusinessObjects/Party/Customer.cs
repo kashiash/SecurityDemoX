@@ -1,27 +1,14 @@
 ﻿using DevExpress.ExpressApp.DC;
 using DevExpress.Persistent.Base;
 using DevExpress.Xpo;
+using SecurityDemoX.Module.Services;
 
 namespace SecurityDemoX.Module.BusinessObjects
 {
     [DefaultClassOptions]
     [MapInheritance(MapInheritanceType.ParentTable)]
-    [XafDefaultProperty(nameof(FullName))]
-    public class Customer : PartyRole, IPartyRoleType
+    public class Customer : PartyRole, IParty, IPartyRoleType
     {
-        [ObjectValidatorIgnoreIssue(
-            typeof(ObjectValidatorDefaultPropertyIsVirtual))]
-        public virtual string FullName
-        {
-            get
-            {
-                return ObjectFormatter.Format(
-                    $"{Party?.DisplayName} ; {Party?.Address1?.FullAddress}",
-                    this,
-                    EmptyEntriesMode.RemoveDelimiterWhenEntryIsEmpty);
-            }
-        }
-
         public Customer(Session session) : base(session)
         {
         }
@@ -35,5 +22,7 @@ namespace SecurityDemoX.Module.BusinessObjects
                     nameof(Invoices));
             }
         }
-    }
+
+
+	}
 }

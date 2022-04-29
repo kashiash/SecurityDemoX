@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# XAF0002: XPO business class properties should not be overriden
+dotnet_diagnostic.XAF0002.severity = none

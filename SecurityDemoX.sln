@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityDemoX.Module.Blazor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityDemoX.Blazor.Server", "SecurityDemoX.Blazor.Server\SecurityDemoX.Blazor.Server.csproj", "{AE0859C1-FB7C-4535-A86E-C50F0CF7D545}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityDemoxTest", "SecurityDemoxTest\SecurityDemoxTest.csproj", "{34B81FC2-7903-40AF-AE80-D768A828BB14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityDemoxTest", "SecurityDemoxTest\SecurityDemoxTest.csproj", "{34B81FC2-7903-40AF-AE80-D768A828BB14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E4B1B7BF-87E1-48FF-963E-CB737DE9B509}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
